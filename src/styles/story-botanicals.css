@@ -1,0 +1,143 @@
+/* The same paper, ink and botanical shapes continue from the opening garden. */
+.wish-slot { position: relative; isolation: isolate; }
+.wish-slot .wish-card { position: relative; isolation: isolate; }
+.story-backdrop { position: absolute; inset: -65px -160px; z-index: -1; pointer-events: none; }
+.story-backdrop > svg { width: 100%; height: 100%; overflow: visible; }
+.story-thread { stroke: #d8aaa9; stroke-width: .8; opacity: .3; }
+.story-orbit { stroke: #d7b4aa; stroke-width: .8; opacity: .28; }
+.story-growing-branch { opacity: .65; }
+.story-growing-branch .vine-stem { stroke: #c7a99d; stroke-width: .9; }
+.story-floating { transform: translateY(calc(14px - var(--vine-progress, 0) * 28px)); }
+.wish-slot:nth-child(3n + 2) .story-backdrop { transform: scaleX(-1); }
+.wish-slot:nth-child(3n) .story-orbit { stroke-dasharray: 2 5; }
+.wish-slot .wish-art { width: min(100%, 325px); margin-inline: auto; }
+.wish-photo-scene { position: relative; transform: translate3d(0, var(--photo-y, 0px), 24px) rotateY(var(--photo-rotate, 0deg)) rotateZ(-2deg); }
+.wish-slot:nth-child(even) .wish-photo-scene { transform: translate3d(0, var(--photo-y, 0px), 24px) rotateY(var(--photo-rotate, 0deg)) rotateZ(2deg); }
+.wish-slot .wish-art .portrait { width: 100%; max-width: none; transform: none; padding-bottom: 15px; }
+.wish-photo-scene::after { content: ''; position: absolute; width: 78px; height: 23px; left: 42%; top: -9px; background: #dfb0bd75; border-inline: 1px dashed #fff8; transform: rotate(-6deg); }
+.wish-slot:nth-child(3n + 2) .wish-photo-scene::after { background: #b7c3a66b; left: 22%; transform: rotate(7deg); }
+.wish-slot:nth-child(3n) .wish-photo-scene::after { background: #e7d6af80; left: 50%; }
+.wish-vine { position: absolute; inset: -26px -25px -29px; pointer-events: none; }
+.wish-vine > svg { width: 100%; height: 100%; overflow: visible; }
+.vine-composition-mirrored { transform: translateX(380px) scaleX(-1); }
+.vine-guide { stroke: #c8bdab; stroke-width: .65; opacity: .25; }
+.vine-stem { stroke: #9dac8f; stroke-width: 1.1; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - clamp(0, var(--vine-progress, 0) / .78, 1)); }
+.vine-bud { --bud-open: clamp(0, (var(--vine-progress, 0) - var(--bud-at, 0)) / .18, 1); transform-box: fill-box; transform-origin: center; opacity: var(--bud-open); transform: scale(calc(.15 + var(--bud-open) * .85)) rotate(calc(-24deg + var(--bud-open) * 24deg)); }
+.vine-bud .botanical-flower { transform: none; }
+.wish-slot .wish-card[data-layout='photo'] .wish-bloom { width: 67px; right: -27px; bottom: -18px; }
+.wish-slot:nth-child(even) .wish-card[data-layout='photo'] .wish-bloom { right: auto; left: -27px; }
+.wish-copy-flourish { width: 145px; margin-top: 22px; }
+.wish-copy-flourish > svg { width: 100%; overflow: visible; }
+.wish-copy-flourish .vine-stem { stroke: #d4aaa9; }
+.wish-slot .wish-copy::before { display: none; }
+.wish-slot .wish-copy { position: relative; }
+.wish-slot .wish-card[data-layout='illustration'] .wish-art { min-height: 310px; border: 1px solid #dbbdb44d; border-radius: 48% 52% 47% 53%; background: radial-gradient(ellipse, #efd8dd4d, transparent 72%); }
+.wish-card[data-layout='illustration'] .wish-bloom { width: 165px; }
+.paper-letter { position: relative; isolation: isolate; border: 1px solid #dfc8ba70; border-radius: 3px; background: linear-gradient(135deg, #fffdf9, #fff9f2); }
+.closing-botanicals { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.closing-vine { position: absolute; width: 155px; height: 195px; opacity: .9; }
+.closing-vine > svg { width: 100%; height: 100%; overflow: visible; }
+.closing-vine-left { top: -30px; left: -42px; transform: rotate(-18deg); }
+.closing-vine-right { bottom: -30px; right: -42px; transform: rotate(162deg); }
+.paper-letter .closing-vine { width: 105px; height: 135px; }
+.paper-letter .story-backdrop { opacity: .4; }
+.paper-letter .closing-vine-left { left: -49px; }
+.paper-letter .closing-vine-right { right: -49px; }
+.finale-pin { position: sticky; isolation: isolate; --vine-progress: var(--scene-progress, 0); }
+.finale-pin .closing-botanicals { max-width: 850px; margin-inline: auto; }
+.finale-pin .closing-vine-left { top: 18%; left: 0; }
+.finale-pin .closing-vine-right { top: 38%; bottom: auto; right: 0; }
+.finale-pin .story-backdrop { inset: 0 -150px; }
+@media (max-width: 700px) {
+  .wish-slot .wish-art { width: min(100%, 265px); }
+  .wish-slot .wish-card { row-gap: 44px; }
+  .wish-vine { inset: -22px -21px -25px; }
+  .wish-photo-scene::after { width: 62px; height: 20px; }
+  .story-backdrop { inset: -35px -15px; }
+  .story-backdrop > svg { object-fit: cover; }
+  .wish-copy-flourish { margin: 18px auto 0; width: 120px; }
+  .wish-slot .wish-card[data-layout='photo'] .wish-bloom { width: 58px; right: -18px; }
+  .wish-slot:nth-child(even) .wish-card[data-layout='photo'] .wish-bloom { left: -18px; }
+  .paper-letter .closing-vine { width: 64px; height: 85px; }
+  .paper-letter .closing-vine-left { left: -18px; top: -35px; }
+  .paper-letter .closing-vine-right { right: -18px; bottom: -35px; }
+  .finale-pin .closing-vine { width: 85px; height: 110px; opacity: .65; }
+  .finale-pin .closing-vine-left { left: 10px; top: 22%; }
+  .finale-pin .closing-vine-right { right: 6px; top: 34%; bottom: auto; }
+  .finale-pin .story-backdrop { inset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wish-slot .wish-photo-scene, .story-floating { transform: none; }
+  .vine-stem { stroke-dashoffset: 0; }
+  .vine-bud { opacity: 1; transform: none; }
+  .finale-pin { position: relative; }
+}
+
+/* The finished bouquet and message stay together, including at document end. */
+.finale.scroll-scene {
+  --scene-travel: 65svh;
+  background: radial-gradient(ellipse at 50% 40%, #f8e1e3 0%, #fdf0eb 43%, var(--color-background) 77%);
+}
+.finale-pin {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100svh;
+  padding: clamp(36px, 6svh, 64px) 20px;
+}
+.finale-pin .bouquet-art {
+  flex: 0 0 auto;
+  width: min(32svh, 280px, 66vw);
+  margin: 0 0 clamp(12px, 2.5svh, 24px);
+  filter: drop-shadow(0 12px 28px #883f5615);
+}
+.finale-pin .bouquet-art::before {
+  content: ''; position: absolute; inset: 8% 0 15%; border-radius: 50%; z-index: -1;
+  background: radial-gradient(ellipse, #f3cbd36b, transparent 70%);
+  pointer-events: none;
+}
+.finale-pin .bouquet-ribbon {
+  width: var(--ribbon-width, 34%); transform: translate(-50%, -34.783%);
+  filter: drop-shadow(0 4px 8px #783a481c);
+}
+.bouquet-ribbon .svg-silk-bow {
+  transform-box: view-box; transform-origin: 90px 40px;
+  opacity: var(--ribbon-progress, 1);
+  transform: scale(calc(.72 + var(--ribbon-progress, 1) * .28));
+}
+.finale-pin h2 {
+  max-width: 26ch; font-size: clamp(2.2rem, 3.7vw, 3.45rem);
+  line-height: 1.18; letter-spacing: -.025em; color: #3a2b30;
+}
+.finale-pin .lead {
+  max-width: 42ch; font-size: clamp(.95rem, 1.3vw, 1.1rem);
+  line-height: 1.8; color: #766269; margin-top: 16px;
+}
+.finale-pin .finale-signature {
+  font-size: 1.6rem; line-height: 1.55; margin-top: clamp(20px, 3svh, 30px);
+  color: var(--color-accent-ink);
+}
+.finale-pin .closing-botanicals { max-width: 1100px; }
+.finale-pin .story-backdrop { opacity: .4; }
+.finale-pin .story-silk-ribbon { display: none; }
+.finale-pin .closing-vine { opacity: .65; }
+.finale-pin .closing-vine-left { left: 8%; top: 18%; }
+.finale-pin .closing-vine-right { right: 8%; top: 35%; bottom: auto; }
+@media (max-width: 700px) {
+  .finale-pin { padding: 36px 20px 44px; }
+  .finale-pin h2 { max-width: 17ch; font-size: clamp(2rem, 8vw, 2.65rem); }
+  .finale-pin .lead { max-width: 30ch; font-size: .94rem; margin-top: 14px; }
+  .finale-pin .finale-signature { font-size: 1.5rem; margin-top: 22px; }
+  .finale-pin .closing-vine-left { left: 4px; top: 19%; }
+  .finale-pin .closing-vine-right { right: 4px; top: 35%; }
+  .finale-pin .story-backdrop { opacity: .25; }
+}
+@media (max-height: 520px) and (min-width: 701px) {
+  .finale-pin {
+    display: grid; grid-template-columns: .8fr 1.2fr; gap: 12px 32px;
+    align-content: center; justify-items: center; padding: 28px max(32px, 7vw);
+  }
+  .finale-pin .bouquet-art { grid-column: 1; grid-row: 1 / 4; width: min(52svh, 220px); margin: 0; }
+  .finale-pin h2, .finale-pin .lead, .finale-pin .finale-signature { grid-column: 2; margin: 0; }
+  .finale-pin h2 { font-size: 2.1rem; }
+  .finale-pin .finale-signature { font-size: 1.4rem; }
+}
+

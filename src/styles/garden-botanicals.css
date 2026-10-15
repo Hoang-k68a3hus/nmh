@@ -1,0 +1,167 @@
+/* A floral border, foreground meadow and background threads share one scroll pose. */
+.garden-pin { isolation: isolate; }
+.garden-pin .garden-layout { position: relative; z-index: 1; }
+.garden-title-name { display: block; }
+.garden-composition::before { display: none; }
+
+.garden-pin #hero-photo {
+  transform: perspective(1000px) rotateY(calc(-4.5deg + var(--scene-progress, 0.5) * 9deg)) rotateZ(calc(-2.8deg + var(--scene-progress, 0.5) * 1.2deg));
+  will-change: transform;
+}
+
+.garden-pin #hero-photo .portrait {
+  transform: none;
+  box-shadow: 0 18px 42px rgba(87, 58, 48, 0.08), 0 4px 12px rgba(87, 58, 48, 0.04);
+}
+
+.portrait-garland {
+  position: absolute;
+  inset: -26px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(92, 64, 53, 0.07));
+}
+
+.portrait-garland > svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: garland-breathe 6.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+.botanical-flower {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(.74 + var(--scene-progress, 1) * .26)) rotate(calc(-7deg + var(--scene-progress, 1) * 7deg));
+}
+
+.garden-meadow {
+  position: absolute;
+  width: 475px;
+  height: auto;
+  bottom: -32px;
+  right: -88px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 20px rgba(87, 58, 48, 0.06));
+}
+
+/* Tách riêng chuyển động gió đung đưa ra thẻ SVG để không xung đột với --scene-progress */
+.garden-meadow > svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  animation: meadow-breeze 5.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+.meadow-grasses {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: skewX(calc(-2.5deg + var(--scene-progress, 1) * 5deg)) scaleY(calc(.82 + var(--scene-progress, 1) * .18));
+}
+
+.meadow-trailing {
+  transform: translate3d(0, calc(7px - var(--scene-progress, 1) * 7px), 0);
+}
+
+.garden-atmosphere {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.garden-atmosphere > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: atmosphere-drift 8.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+.garden-drifting-leaves {
+  transform: translate3d(calc(12px - var(--scene-progress, 0) * 24px), calc(18px - var(--scene-progress, 0) * 36px), 0);
+}
+
+.garden-glints {
+  opacity: calc(.45 + var(--scene-progress, 0) * .55);
+}
+
+.botanical-sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sparkle-pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Làm mượt chuyển động mọc dây leo và nở hoa của trang Wishes */
+.vine-stem {
+  transition: stroke-dashoffset 0.12s linear;
+}
+
+.vine-bud {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease-out;
+}
+
+.story-floating {
+  animation: atmosphere-drift 7.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+@keyframes garland-breathe {
+  0% { transform: rotate(-0.35deg) scale(0.997); }
+  100% { transform: rotate(0.35deg) scale(1.003); }
+}
+
+@keyframes meadow-breeze {
+  0% { transform: rotate(-0.8deg) skewX(-1.2deg); }
+  100% { transform: rotate(0.6deg) skewX(1.4deg); }
+}
+
+@keyframes atmosphere-drift {
+  0% { transform: translate3d(-4px, 3px, 0); }
+  100% { transform: translate3d(4px, -5px, 0); }
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.72) rotate(0deg); }
+  50% { opacity: 0.95; transform: scale(1.08) rotate(15deg); }
+}
+
+.garden:not(.has-portrait) .portrait-garland { display: none; }
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .garden-pin .garden-layout { width: 84%; padding-inline: 0; gap: 48px; }
+  .garden-pin .garden-composition { height: 410px; }
+  .garden-pin #hero-photo { width: 240px; left: 8px; }
+  .portrait-garland { inset: -20px; }
+  .garden-meadow { right: -43px; width: 350px; bottom: -29px; }
+  .garden-pin .garden-art { width: 285px; right: -16px; bottom: -18px; }
+}
+
+@media (max-width: 700px) {
+  .portrait-garland { inset: -18px; }
+  .garden-meadow { width: 315px; right: -12px; bottom: -16px; }
+  .garden-atmosphere > svg { width: 180%; max-width: none; margin-left: -40%; }
+  .garden-drifting-leaves { opacity: .65; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-pin #hero-photo,
+  .portrait-garland > svg,
+  .botanical-flower,
+  .garden-meadow > svg,
+  .meadow-grasses,
+  .meadow-trailing,
+  .garden-atmosphere > svg,
+  .garden-drifting-leaves,
+  .botanical-sparkle,
+  .story-floating {
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+  .garden-glints { opacity: 1; }
+}

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="__CONTENT_THEME__" />
+    <meta name="description" content="__CONTENT_DESCRIPTION__" />
+    <meta property="og:title" content="__CONTENT_TITLE__" />
+    <meta property="og:description" content="__CONTENT_DESCRIPTION__" />
+    <meta property="og:type" content="website" />
+    <title>__CONTENT_TITLE__</title>
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%assets/images/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#garden">Đi tới lời chúc</a>
+    <main id="main-content">
+      <section id="intro" class="intro section shell" aria-labelledby="intro-title">
+        <div class="intro-copy">
+          <p class="eyebrow" id="intro-eyebrow">Ngày Phụ nữ Việt Nam · 20 tháng 10</p>
+          <h1 id="intro-title"><span id="intro-title-lead">Một khu vườn</span><br /><span class="intro-title-ending"><span id="intro-title-tail">chỉ dành cho</span> <em id="intro-title-emphasis">em.</em></span></h1>
+          <p class="recipient-label" id="intro-recipient"></p>
+          <p class="lead" id="intro-message">Một chút dịu dàng, vài lời yêu thương. Và một món quà nhỏ anh muốn gửi đến em.</p>
+          <p class="scroll-cue"><span class="scroll-cue-line" aria-hidden="true"></span>Cuộn để mở lá thư dành cho em</p>
+        </div>
+        <div class="envelope-frame" id="envelope-art" aria-hidden="true"></div>
+        <p class="intro-footnote" id="intro-footnote">Những điều nhỏ bé, dành cho một người đặc biệt.</p>
+      </section>
+
+      <section id="garden" class="garden section" aria-labelledby="garden-title">
+        <div class="shell garden-layout">
+          <div class="section-copy">
+            <p class="eyebrow" id="garden-eyebrow">01 / Một khu vườn nhỏ</p>
+            <h2 id="garden-title" tabindex="-1">Chúc mừng 20/10,<br />người anh thương.</h2>
+            <p class="lead" id="garden-message">Mong hôm nay em nhận được thật nhiều dịu dàng.</p>
+            <p class="scroll-cue"><span id="garden-next-label">Đi dạo cùng anh nhé</span><span aria-hidden="true">↓</span></p>
+          </div>
+          <div class="garden-composition">
+            <div id="hero-photo"></div>
+            <div class="garden-art" id="garden-art" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="wishes" class="wishes section shell" aria-labelledby="wishes-title">
+        <div class="section-heading">
+          <div class="section-thread" id="wishes-thread" aria-hidden="true"></div>
+          <p class="eyebrow" id="wishes-eyebrow">02 / Những lời dịu dàng</p>
+          <h2 id="wishes-title" tabindex="-1"><span id="wishes-title-lead">Những điều anh</span><br /><em id="wishes-title-emphasis">mong dành cho em.</em></h2>
+          <p id="wishes-message">Mỗi lời chúc là một bông hoa nhỏ trong khu vườn này.</p>
+          <p class="wish-interaction-hint" id="wishes-interaction-hint"></p>
+        </div>
+        <div class="wish-progress" id="wish-progress" role="status" aria-live="polite" aria-atomic="true">
+          <p class="wish-count" id="wish-progress-count"></p>
+          <p class="wish-complete" id="wish-progress-complete" hidden></p>
+        </div>
+        <div class="wish-list" id="wish-list"></div>
+        <p class="scroll-cue wishes-next"><span id="wishes-next-label">Đọc lá thư của anh</span><span aria-hidden="true">↓</span></p>
+      </section>
+
+      <section id="letter" class="letter-section section shell" aria-labelledby="letter-title">
+        <div class="section-thread section-thread-centered" id="letter-thread" aria-hidden="true"></div>
+        <article class="paper-letter">
+          <p class="eyebrow" id="letter-eyebrow">03 / Một lá thư riêng</p>
+          <h2 id="letter-title" tabindex="-1">Có vài điều anh muốn nói với em.</h2>
+          <div class="letter-audio-controls" id="letter-audio-controls"></div>
+          <div class="letter-reading" id="letter-reading">
+            <div id="letter-photo"></div>
+            <div class="letter-body" id="letter-body"></div>
+          </div>
+          <p class="signature" id="letter-signature">Người thương em</p>
+        </article>
+      </section>
+
+      <section id="finale" class="finale section shell" aria-labelledby="finale-title">
+        <p class="eyebrow" id="finale-eyebrow">Với tất cả yêu thương</p>
+        <div class="bouquet-art" id="bouquet-art" aria-hidden="true"></div>
+        <h2 id="finale-title" tabindex="-1">Một bó hoa dành cho em.</h2>
+        <p class="lead" id="finale-message">Thương em, hôm nay và những ngày sau.</p>
+        <p class="signature finale-signature" id="finale-signature"></p>
+      </section>
+    </main>
+
+    <noscript><p class="noscript-message">Chúc mừng ngày Phụ nữ Việt Nam. Mong em luôn bình yên và được yêu thương. Bật JavaScript để xem toàn bộ bức thư và lời chúc.</p></noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

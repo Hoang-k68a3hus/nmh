@@ -1,0 +1,67 @@
+/* A compact sheet with readable text and ornament kept outside the writing. */
+#letter {
+  position: relative;
+  z-index: 5;
+  padding-block: clamp(48px, 7svh, 72px);
+}
+#letter > .section-thread { width: 140px; margin-bottom: 22px; }
+#letter .paper-letter {
+  position: relative;
+  max-width: 610px;
+  margin-inline: auto;
+  padding: 42px 50px 40px;
+  background: linear-gradient(180deg, #fffefb, #fcf6f0);
+  border: 1px solid #ead8cf;
+  border-radius: 6px;
+  box-shadow: 0 20px 50px #573a3014, 0 4px 14px #573a300a,
+    inset 0 0 0 6px #fffefb, inset 0 0 0 7px #dab8b559;
+  rotate: -.6deg;
+}
+#letter .paper-letter > :not(.closing-botanicals) { position: relative; z-index: 1; }
+#letter .paper-letter .eyebrow {
+  font-size: .72rem;
+  letter-spacing: .16em;
+  margin: 0 0 8px;
+}
+#letter .paper-letter h2 {
+  font-size: clamp(1.65rem, 2.3vw, 2.05rem);
+  line-height: 1.25;
+  margin: 0 0 22px;
+}
+#letter .letter-reading { margin-top: 0; }
+#letter .letter-reading.has-photo { grid-template-columns: 1fr; gap: 20px; }
+#letter #letter-photo:empty, #letter .letter-audio-controls:empty { display: none; }
+#letter #letter-photo .portrait { max-width: 190px; margin: 0 auto; }
+#letter .letter-body { max-width: none; }
+#letter .letter-body p {
+  font-size: .96rem;
+  line-height: 1.72;
+  color: #5a4740;
+  margin: 0;
+}
+#letter .letter-body p + p { margin-top: 14px; }
+#letter .letter-body p:first-child {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #3b2c27;
+}
+#letter .signature { margin-top: 20px; font-size: 1.55rem; line-height: 1.35; }
+/* Remove the decorative paths that previously crossed the paragraphs. */
+#letter .story-backdrop { display: none; }
+#letter .closing-vine { width: 115px; height: 135px; }
+#letter .closing-vine-left { left: -42px; top: -32px; }
+#letter .closing-vine-right { right: -30px; bottom: 2px; }
+@media (max-width: 700px) {
+  #letter .paper-letter { max-width: 100%; padding: 30px 24px 34px; rotate: 0deg; }
+  #letter .paper-letter h2 { margin-bottom: 18px; }
+  #letter .letter-body p { font-size: .92rem; line-height: 1.65; }
+  #letter .letter-body p:first-child { font-size: 1.15rem; }
+  #letter .letter-body p + p { margin-top: 12px; }
+  #letter .closing-vine { width: 75px; height: 90px; }
+  #letter .closing-vine-left { left: -14px; top: -34px; }
+  #letter .closing-vine-right { right: -13px; bottom: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #letter .paper-letter { rotate: 0deg; }
+}

@@ -1,0 +1,35 @@
+.shell { --gutter-start: max(var(--page-gutter), env(safe-area-inset-left)); --gutter-end: max(var(--page-gutter), env(safe-area-inset-right)); width: min(calc(var(--content-width) + var(--gutter-start) + var(--gutter-end)), 100%); padding-inline: var(--gutter-start) var(--gutter-end); margin-inline: auto; }
+.section { padding-block: var(--section-space); }
+.intro { position: relative; display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; column-gap: var(--space-4); min-height: min(760px, 94svh); }
+.intro-copy, .section-copy, .wish-copy { min-width: 0; }
+.intro-copy { position: relative; z-index: 1; }
+.intro-footnote { grid-column: 1 / -1; align-self: end; margin-top: var(--space-12); color: var(--color-muted); font-size: var(--font-size-small); }
+.garden { --color-text: var(--color-surface-text); --color-muted: var(--color-surface-muted); --color-accent-ink: var(--color-surface-accent-ink); background: var(--color-surface); color: var(--color-text); }
+.garden-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); align-items: center; }
+.section-copy { max-width: 520px; }
+.section-heading { max-width: 720px; margin-bottom: var(--space-12); }
+.wish-list { display: grid; gap: var(--space-6); }
+.wish-card, .paper-letter { --color-text: var(--color-paper-text); --color-muted: var(--color-paper-muted); --color-accent-ink: var(--color-paper-accent-ink); color: var(--color-text); background: var(--color-paper); }
+.wish-card { display: grid; grid-template-columns: 0.7fr 1.3fr; grid-template-areas: 'art copy'; gap: var(--space-8); align-items: center; padding: clamp(var(--space-6), 4vw, var(--space-12)); border: 1px solid var(--color-border); border-radius: var(--radius-card); }
+.wish-card[data-layout="photo"] { grid-template-columns: 0.9fr 1.1fr; }
+.wish-card:nth-child(even) { grid-template-columns: 1.3fr 0.7fr; grid-template-areas: 'copy art'; }
+.wish-card[data-layout="photo"]:nth-child(even) { grid-template-columns: 1.1fr 0.9fr; }
+.wish-art { grid-area: art; }
+.wish-copy { grid-area: copy; }
+.letter-section { max-width: calc(var(--letter-width) + var(--gutter-start) + var(--gutter-end)); }
+.letter-section.has-portrait { max-width: calc(1040px + var(--gutter-start) + var(--gutter-end)); }
+.finale { max-width: calc(800px + var(--gutter-start) + var(--gutter-end)); text-align: center; }
+@media (max-width: 700px) {
+  :root { --page-gutter: var(--space-4); }
+  .intro { grid-template-columns: 1fr; min-height: auto; padding-block: var(--space-12); }
+  .envelope-frame { width: min(100%, 390px); margin: var(--space-4) auto 0; }
+  .intro-footnote { margin-top: var(--space-2); }
+  .garden-layout { grid-template-columns: 1fr; gap: var(--space-4); }
+  .garden-art { max-width: 420px; margin-inline: auto; }
+  .wish-card, .wish-card[data-layout="photo"] { grid-template-columns: 1fr; gap: var(--space-4); }
+  .wish-card:nth-child(even), .wish-card[data-layout="photo"]:nth-child(even) { grid-template-columns: 1fr; }
+  .wish-card, .wish-card:nth-child(even) { grid-template-areas: 'copy' 'art'; }
+  .wish-card[data-layout="photo"], .wish-card[data-layout="photo"]:nth-child(even) { grid-template-areas: 'art' 'copy'; }
+}
+@media (max-width: 420px) {
+}

@@ -1,0 +1,122 @@
+.brand { display: inline-flex; align-items: center; gap: var(--space-3); min-width: 0; max-width: 100%; min-height: var(--touch-target); text-decoration: none; font-size: var(--font-size-small); overflow-wrap: anywhere; }
+.brand > span:first-child { font-size: 1.75rem; color: var(--color-accent-ink); }
+.eyebrow { color: var(--color-accent-ink); font-size: var(--font-size-label); text-transform: uppercase; letter-spacing: 0.13em; margin-bottom: var(--space-6); font-weight: 600; }
+.lead { font-size: clamp(var(--font-size-body), 1.5vw, 1.1rem); color: var(--color-muted); max-width: 470px; margin-top: var(--space-6); overflow-wrap: anywhere; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-6); min-height: 48px; padding: var(--space-3) var(--space-6); margin-top: var(--space-8); border: 1px solid var(--color-accent); border-radius: var(--radius-pill); background: var(--color-accent); color: var(--color-on-accent); text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: transform var(--duration-ui) var(--ease-soft), box-shadow var(--duration-ui) var(--ease-soft); }
+.button-outline { background: transparent; color: var(--color-accent-ink); border-color: currentColor; }
+.text-link { display: inline-flex; align-items: center; gap: var(--space-4); min-height: var(--touch-target); margin-top: var(--space-8); color: var(--color-accent-ink); text-decoration-thickness: 1px; text-underline-offset: 0.4rem; }
+.recipient-label { color: var(--color-accent-ink); margin-top: var(--space-4); font-family: var(--font-display); font-weight: 500; font-style: italic; font-size: 1.5rem; overflow-wrap: anywhere; }
+.envelope-frame { position: relative; min-width: 0; }
+.envelope-frame::before { content: ''; position: absolute; inset: 9% 5%; border-radius: 50%; background: radial-gradient(ellipse, var(--color-glow), transparent 68%); opacity: 0.4; z-index: -1; }
+.envelope-frame svg, .garden-art svg { width: 100%; }
+.garden-art, .bouquet-art { position: relative; isolation: isolate; }
+.garden-art { width: 100%; aspect-ratio: 1.06; }
+.garden-art::before { content: ''; position: absolute; z-index: -1; inset: 5% 1% 8%; border-radius: 50%; background: radial-gradient(ellipse, var(--color-glow), transparent 72%); opacity: 0.9; }
+.garden-art > svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.bouquet-art { aspect-ratio: 0.8; }
+.bouquet-art > svg { width: 100%; height: 100%; }
+.garden-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; opacity: 0; }
+[data-graphics="ready"] > .garden-canvas { opacity: 1; }
+[data-graphics="ready"] > svg { visibility: hidden; }
+.garden.has-portrait .garden-art { max-height: 390px; }
+.section-heading > p:last-child { margin-top: var(--space-4); color: var(--color-muted); }
+.section-heading > #wishes-message { margin-top: var(--space-4); color: var(--color-muted); }
+.wish-art { display: grid; place-items: center; min-width: 0; }
+.wish-copy .eyebrow { margin-bottom: var(--space-2); }
+.wish-copy .wish-message { color: var(--color-muted); margin-top: var(--space-4); max-width: 460px; white-space: pre-line; overflow-wrap: anywhere; }
+.wish-copy h3 { overflow-wrap: anywhere; }
+.wish-interaction-hint { font-size: var(--font-size-small); max-width: 48ch; }
+.wish-progress { margin-block: calc(var(--space-6) * -1) var(--space-6); border-left: 2px solid var(--color-border); padding-left: var(--space-4); }
+.wish-count { font-size: var(--font-size-small); color: var(--color-accent-ink); }
+.wish-complete { font-size: var(--font-size-small); color: var(--color-muted); margin-top: var(--space-2); }
+.wish-flower-action { display: flex; justify-content: center; min-width: 0; }
+.wish-flower-button { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-3); min-height: var(--touch-target); max-width: 100%; border: 1px solid transparent; border-radius: var(--radius-card); background: transparent; color: var(--color-paper-accent-ink); }
+.wish-flower-button > svg { width: 132px; max-width: 100%; height: auto; }
+.wish-flower-label { font-size: var(--font-size-small); overflow-wrap: anywhere; }
+.wish-flower-button[aria-disabled="true"] { cursor: default; }
+.wish-copy .wish-flower-action { justify-content: flex-start; margin-top: var(--space-6); }
+.wish-copy .wish-flower-button { flex-direction: row; gap: var(--space-3); border-color: var(--color-border); border-radius: var(--radius-pill); padding: var(--space-2) var(--space-4); }
+.wish-copy .wish-flower-button > svg { width: 44px; flex-shrink: 0; }
+.portrait { width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); background: var(--color-paper); box-shadow: var(--shadow-photo); }
+.portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-photo); background: var(--color-glow); }
+.portrait figcaption { font-size: var(--font-size-small); color: var(--color-paper-muted); padding-top: var(--space-2); overflow-wrap: anywhere; }
+#hero-photo .portrait, #letter-photo .portrait { max-width: 250px; margin-top: var(--space-6); }
+.paper-letter { padding: clamp(var(--space-6), 5vw, var(--space-16)); border: 1px solid var(--color-border); box-shadow: var(--shadow-paper); background-image: repeating-linear-gradient(0deg, transparent 0 5px, #382b3001 5px 6px); }
+.paper-letter h2 { font-size: clamp(2.1rem, 4vw, 3.25rem); }
+.letter-reading { margin-top: var(--space-8); }
+.letter-body { max-width: var(--text-measure); line-height: 1.9; overflow-wrap: anywhere; }
+.letter-body p { white-space: pre-line; }
+.letter-reading.has-photo { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); align-items: start; gap: var(--space-8); }
+.letter-reading #letter-photo .portrait { width: 100%; max-width: none; margin-top: 0; }
+#letter-photo:empty, .letter-audio-controls:empty { display: none; }
+.letter-audio-controls { margin-top: var(--space-6); }
+.narration-button { min-height: var(--touch-target); max-width: 100%; padding: var(--space-2) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-pill); background: transparent; color: var(--color-paper-accent-ink); font-size: var(--font-size-small); }
+.narration-message { margin-top: var(--space-2); color: var(--color-paper-muted); font-size: var(--font-size-small); max-width: 50ch; }
+.narration-message:empty { display: none; }
+.letter-body p + p { margin-top: var(--space-6); }
+.signature { white-space: pre-line; margin-top: var(--space-8); font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 1.9rem; color: var(--color-accent-ink); }
+.bouquet-art { width: min(100%, 340px); max-width: 340px; margin: 0 auto var(--space-6); }
+.bouquet-ribbon { position: absolute; z-index: 1; left: var(--ribbon-x, 50%); top: var(--ribbon-y, 70%); width: var(--ribbon-width, 26%); transform: translate(-50%, -34.7%); pointer-events: none; visibility: hidden; }
+[data-graphics="ready"][data-bouquet-stage="tying"] .bouquet-ribbon, [data-graphics="ready"][data-bouquet-stage="complete"] .bouquet-ribbon { visibility: visible; }
+.bouquet-ribbon > svg { width: 100%; height: auto; }
+.finale-signature { font-size: 1.5rem; margin-top: var(--space-4); }
+.finale .lead { margin-inline: auto; }
+.audio-button { background: transparent; border: 1px solid currentColor; border-radius: var(--radius-pill); padding: var(--space-2) var(--space-3); min-height: var(--touch-target); color: var(--color-accent-ink); font-size: var(--font-size-small); }
+.intro-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); }
+.intro-actions:has(.skip-animation[hidden]):not(:has(.audio-button)) { display: none; }
+.skip-animation { min-height: var(--touch-target); padding: var(--space-2) var(--space-3); border: 0; background: transparent; color: var(--color-accent-ink); text-decoration: underline; text-underline-offset: 0.3rem; font-size: var(--font-size-small); }
+.button[aria-disabled="true"] { cursor: progress; }
+.audio-controls { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1); max-width: 100%; }
+.audio-message { max-width: 28ch; font-size: var(--font-size-label); color: var(--color-muted); letter-spacing: normal; text-align: right; }
+.audio-message:empty { display: none; }
+.section-thread { width: 240px; max-width: 100%; margin-bottom: var(--space-6); }
+.section-thread-centered { margin-inline: auto; margin-bottom: var(--space-8); }
+@media (hover: hover) and (pointer: fine) {
+  .button:hover { transform: translateY(-2px); box-shadow: var(--shadow-photo); }
+  .wish-flower-button:hover:not([aria-disabled="true"]) { background: var(--color-glow); border-color: var(--color-border); }
+}
+@media (max-width: 700px) {
+  .letter-reading.has-photo { grid-template-columns: 1fr; gap: var(--space-6); }
+  .letter-reading #letter-photo .portrait { max-width: 250px; margin-inline: auto; }
+  .wish-art .wish-flower-button > svg { width: 92px; }
+  .garden.has-portrait .garden-art { max-width: 330px; }
+  .wish-art .portrait { max-width: 350px; }
+  .section-thread { width: 200px; }
+  .intro[data-experience="opening"] .skip-animation { background: var(--color-paper); color: var(--color-paper-accent-ink); border: 1px solid currentColor; border-radius: var(--radius-pill); }
+}
+/* Tích hợp vùng hiển thị 3D Paper Envelope hòa quyện với Hero Section */
+.illustration-envelope {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 540 / 460;
+  overflow: visible;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelope-3d-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.envelope-3d-stage canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  outline: none;
+  background: transparent;
+}
+
+/* Responsive tinh chỉnh trên Tablet & Mobile Portrait */
+@media (max-width: 768px) {
+  .illustration-envelope {
+    max-width: min(100%, 440px);
+    margin-inline: auto;
+  }
+}
