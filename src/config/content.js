@@ -1,7 +1,7 @@
 // Lời chúc 20/10 dành riêng cho Hiền, từ Hoàng.
 // Token {{...}} tự lấy tên/ngày từ cấu hình, không phải HTML.
 export const content = {
-  isDemo: true,
+  isDemo: false,
   occasion: { label: 'Ngày Phụ nữ Việt Nam', displayDate: '20.10.2026', shortDate: '20/10' },
   recipient: { name: 'Hiền', nickname: '' },
   sender: { name: 'Hoàng', signature: 'Thương em,\n{{sender.name}}' },

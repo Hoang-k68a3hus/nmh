@@ -7,9 +7,9 @@ import { injectContentMetadata } from '../scripts/lib/content-html.mjs';
 const examplePhoto = { src: 'assets/photos/portrait-01.webp', alt: 'Ảnh chân dung', width: 960, height: 1200, focalPoint: '50% 35%', caption: '' };
 const sample = () => structuredClone(content);
 
-test('Nội dung mẫu có đủ 5 chủ đề, thư 180–300 từ và ảnh đã gắn đúng vị trí', () => {
+test('Nội dung website có đủ 5 chủ đề, thư 180–300 từ và ảnh đã gắn đúng vị trí', () => {
   const resolved = prepareContent(sample());
-  assert.equal(resolved.isDemo, true);
+  assert.equal(resolved.isDemo, false);
   assert.equal(resolved.wishes.length, 5);
   const count = resolved.letter.paragraphs.join(' ').trim().split(/\s+/u).length;
   assert.ok(count >= 180 && count <= 300, `Thư mẫu: ${count} từ`);
@@ -74,7 +74,7 @@ test('Token viết sai hoặc chưa đóng không bị phát hành thành chữ 
 
 test('Production từ chối placeholder; demo giữ nhãn và nội dung mẫu', () => {
   const raw = sample();
-  raw.isDemo = false;
+  raw.recipient.name = '[Tên em]';
   assert.throws(() => validateContent(raw), /Còn nội dung mẫu/);
   raw.isDemo = true;
   assert.equal(validateContent(raw).isDemo, true);

@@ -4,7 +4,7 @@ Website tĩnh chúc mừng ngày Phụ nữ Việt Nam 20/10, chuẩn bị cho t
 
 ## Trạng thái hiện tại
 
-Đã hoàn thành task0_1 đến task0_9: bộ khung năm phần, nội dung/ảnh tùy chọn, thiết kế/SVG, phong thư/âm thanh, khu vườn Three.js, hoa lời chúc, thư riêng/bó hoa kết, tích hợp/hiệu năng và kiểm thử/bàn giao bản tĩnh. **Bản bàn giao là demo chờ cá nhân hóa**: tên và lời chúc còn là nội dung mẫu; năm ảnh đã được tối ưu và gắn vào web, audio chưa có và chưa có URL hosting công khai.
+Đã hoàn thành task0_1 đến task0_9: bộ khung năm phần, nội dung/ảnh tùy chọn, thiết kế/SVG, phong thư/âm thanh, khu vườn Three.js, hoa lời chúc, thư riêng/bó hoa kết, tích hợp/hiệu năng và kiểm thử/bàn giao bản tĩnh. Website đã cá nhân hóa cho Hiền, từ Hoàng; năm ảnh đã được tối ưu và gắn vào web, audio chưa có.
 
 Trải nghiệm hiện tại điều khiển hoàn toàn bằng cuộn: phong thư mở theo vị trí cuộn, camera đi quanh vườn hoa, ảnh/lời chúc nghiêng theo chiều sâu, hoa nở dần và cuối cùng gom thành bó. Cuộn ngược tua ngược các cảnh. Không còn tự mở thư theo bộ đếm thời gian, tự chuyển trang, nút nở hoa hay nút xem lại. Phím cuộn, thanh cuộn và cảm ứng dùng hành vi gốc của trình duyệt.
 
@@ -64,7 +64,7 @@ task/                # Kiến trúc và các task triển khai
 
 ## Cá nhân hóa
 
-Sửa `src/config/content.js`. Thay `[Tên em]`, `[Tên bạn]`; những câu dùng `{{recipient.displayName}}`/`{{sender.name}}` tự điền theo cấu hình. Nhãn demo chỉ tắt khi `isDemo: false`; check/build từ chối marker mẫu còn sót ở chế độ này.
+Sửa `src/config/content.js` để cá nhân hóa. Những câu dùng `{{recipient.displayName}}`/`{{sender.name}}` tự điền theo cấu hình. Đặt `isDemo: false` cho bản tặng thật; check/build từ chối marker mẫu còn sót ở chế độ này.
 
 Đặt ảnh gốc vào `.originals/photos/`, chạy `npm run prepare:photos` để tạo bản WebP trong `public/assets/photos/`; công cụ giữ ảnh gốc, sửa hướng và in kích thước bản web. Đường dẫn cấu hình dùng `assets/photos/ten-anh.webp`, không có `public/` hay tên repository. `photo: null` tạo bố cục không ảnh; ảnh lỗi trên card quay về hoa SVG.
 
