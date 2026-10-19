@@ -9,9 +9,10 @@ export function mountLetter(content, { audio, pageState } = {}) {
   setText('letter-eyebrow', content.letter.eyebrow);
   setText('letter-title', content.letter.title);
   setText('letter-signature', content.sender.signature);
-  const paragraphs = content.letter.paragraphs.map((text) => {
+  const paragraphs = content.letter.paragraphs.map((text, index) => {
     const paragraph = document.createElement('p');
     paragraph.textContent = text;
+    paragraph.style.setProperty('--p-index', String(index));
     return paragraph;
   });
   document.getElementById('letter-body').replaceChildren(...paragraphs);

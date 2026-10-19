@@ -15,9 +15,14 @@ export function mountGardenGraphics(content, { quality = 'auto', loadModule = ()
   let disposed = false, frame = null, forcedLayout = null, bouquetPresentation, appliedRibbon;
   let layout = 'garden', pointer = { x: 0, y: 0 };
   let scrollProgress = { garden: 0, bouquet: 0 };
-  const visible = (host) => {
+  const inViewport = (host) => {
     const rect = host.getBoundingClientRect();
     return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
+  };
+  const visible = (host) => {
+    const rect = host.getBoundingClientRect();
+    const margin = Math.round((innerHeight || 0) * 0.65);
+    return rect.width > 0 && rect.height > 0 && rect.bottom > -margin && rect.top < innerHeight + margin && rect.right > 0 && rect.left < innerWidth;
   };
   const applyRibbon = () => {
     if (disposed || canvas.parentNode !== hosts.bouquet || !bouquetPresentation) return;
@@ -57,7 +62,9 @@ export function mountGardenGraphics(content, { quality = 'auto', loadModule = ()
   const synchronize = () => {
     if (disposed) return;
     const state = pageState.getState();
-    const nextLayout = forcedLayout || Object.entries(hosts).find(([, host]) => visible(host))?.[0];
+    const nextLayout = forcedLayout
+      || Object.entries(hosts).find(([, host]) => inViewport(host))?.[0]
+      || Object.entries(hosts).find(([, host]) => visible(host))?.[0];
     if (nextLayout && nextLayout !== layout) { layout = nextLayout; pointer = { x: 0, y: 0 }; }
     const rect = hosts[layout].getBoundingClientRect();
     controller.setView({
@@ -69,7 +76,7 @@ export function mountGardenGraphics(content, { quality = 'auto', loadModule = ()
     });
   };
   const schedule = () => { if (!disposed && frame == null) frame = requestAnimationFrame(() => { frame = null; synchronize(); }); };
-  const observer = typeof IntersectionObserver === 'function' ? new IntersectionObserver(synchronize, { threshold: [0, 0.01, 0.25, 0.5, 1] }) : null;
+  const observer = typeof IntersectionObserver === 'function' ? new IntersectionObserver(synchronize, { rootMargin: '65% 0px 65% 0px', threshold: [0, 0.01, 0.25, 0.5, 1] }) : null;
   const resizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
   Object.values(hosts).forEach((host) => {
     observer?.observe(host); resizeObserver?.observe(host);

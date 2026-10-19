@@ -4,18 +4,52 @@
   z-index: 5;
   padding-block: clamp(48px, 7svh, 72px);
 }
-#letter > .section-thread { width: 140px; margin-bottom: 22px; }
+#letter::before {
+  content: '';
+  position: absolute;
+  inset: -12% -8%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 52% 46% at 50% 48%, rgba(255, 236, 214, 0.72), rgba(242, 181, 189, 0.24) 48%, transparent 76%),
+    radial-gradient(circle at 26% 30%, rgba(226, 184, 107, 0.16), transparent 46%);
+}
+#letter > .section-thread { position: relative; z-index: 1; width: 140px; margin-bottom: 22px; }
 #letter .paper-letter {
   position: relative;
+  z-index: 1;
   max-width: 610px;
   margin-inline: auto;
   padding: 42px 50px 40px;
-  background: linear-gradient(180deg, #fffefb, #fcf6f0);
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 31px,
+      rgba(212, 165, 116, 0.08) 31px,
+      rgba(212, 165, 116, 0.08) 32px
+    ),
+    linear-gradient(180deg, #fffefb, #fcf5ee);
   border: 1px solid #ead8cf;
   border-radius: 6px;
-  box-shadow: 0 20px 50px #573a3014, 0 4px 14px #573a300a,
-    inset 0 0 0 6px #fffefb, inset 0 0 0 7px #dab8b559;
+  box-shadow:
+    0 24px 56px rgba(87, 58, 48, 0.11),
+    0 6px 18px rgba(87, 58, 48, 0.06),
+    inset 0 0 0 6px #fffefb,
+    inset 0 0 0 7px #dab8b559;
   rotate: -.6deg;
+}
+#letter .paper-letter::before {
+  content: '';
+  position: absolute;
+  inset: 4px -5px -6px 5px;
+  z-index: -1;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #faf1e8, #f3e4d7);
+  border: 1px solid rgba(218, 184, 181, 0.62);
+  box-shadow: 0 14px 32px rgba(87, 58, 48, 0.08);
+  rotate: 1.35deg;
+  pointer-events: none;
 }
 #letter .paper-letter > :not(.closing-botanicals) { position: relative; z-index: 1; }
 #letter .paper-letter .eyebrow {
@@ -54,6 +88,7 @@
 #letter .closing-vine-right { right: -30px; bottom: 2px; }
 @media (max-width: 700px) {
   #letter .paper-letter { max-width: 100%; padding: 30px 24px 34px; rotate: 0deg; }
+  #letter .paper-letter::before { display: none; }
   #letter .paper-letter h2 { margin-bottom: 18px; }
   #letter .letter-body p { font-size: .92rem; line-height: 1.65; }
   #letter .letter-body p:first-child { font-size: 1.15rem; }
@@ -64,4 +99,12 @@
 }
 @media (prefers-reduced-motion: reduce) {
   #letter .paper-letter { rotate: 0deg; }
+  #letter .paper-letter::before { rotate: 0deg; }
+  #letter .letter-body p,
+  #letter .signature {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
+

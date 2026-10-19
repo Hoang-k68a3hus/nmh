@@ -15,6 +15,17 @@ export function mountWishes(wishes, section, { flower = 'stylized' } = {}) {
   const complete = document.getElementById('wish-progress-complete');
   // Reserve its height so reaching the last wish never shifts the letter anchor.
   complete.hidden = false; complete.style.visibility = 'hidden';
+  const progressHost = document.getElementById('wish-progress');
+  const pipsWrap = document.createElement('div');
+  pipsWrap.className = 'wish-progress-pips';
+  pipsWrap.setAttribute('aria-hidden', 'true');
+  const pips = wishes.map(() => {
+    const pip = document.createElement('span');
+    pip.className = 'wish-pip';
+    pipsWrap.append(pip);
+    return pip;
+  });
+  progressHost?.prepend(pipsWrap);
   const records = [];
   let disposed = false;
   const cards = wishes.map((wish, index) => {
@@ -60,7 +71,10 @@ export function mountWishes(wishes, section, { flower = 'stylized' } = {}) {
         const progress = values[i];
         if (record.progress === progress) return;
         record.progress = progress;
+        const isBloomed = progress >= 0.95;
         record.card.style.setProperty('--vine-progress', progress.toFixed(4));
+        record.card.dataset.bloomed = String(isBloomed);
+        if (pips[i]) pips[i].dataset.bloomed = String(isBloomed);
         record.bloom.style.setProperty('--bloom', progress.toFixed(4));
         record.bloom.style.setProperty('--stem-growth', segment(progress, 0, 0.52).toFixed(4));
         record.bloom.style.setProperty('--leaf-open', segment(progress, 0.16, 0.72).toFixed(4));
@@ -74,6 +88,7 @@ export function mountWishes(wishes, section, { flower = 'stylized' } = {}) {
         complete.style.visibility = count === wishes.length ? 'visible' : 'hidden';
       }
     },
-    dispose() { disposed = true; list.replaceChildren(); },
+    dispose() { disposed = true; pipsWrap.remove(); list.replaceChildren(); },
   };
 }
+

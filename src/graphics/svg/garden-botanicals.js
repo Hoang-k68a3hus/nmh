@@ -145,13 +145,40 @@ export function meadowMarkup() {
 }
 
 export function gardenAtmosphereMarkup() {
+  const defs = `
+    <defs>
+      <radialGradient id="garden-aura-warm" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f7dce2" stop-opacity=".55"/>
+        <stop offset="55%" stop-color="#f9ebe0" stop-opacity=".22"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="garden-aura-sage" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#dce6d5" stop-opacity=".42"/>
+        <stop offset="60%" stop-color="#f3efe6" stop-opacity=".15"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="garden-sunbeam" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fffdf8" stop-opacity=".5"/>
+        <stop offset="50%" stop-color="#fcefe3" stop-opacity=".18"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </linearGradient>
+    </defs>`;
+
+  const auras = `
+    <g class="garden-auras" opacity=".85">
+      <ellipse cx="980" cy="310" rx="420" ry="290" fill="url(#garden-aura-warm)"/>
+      <ellipse cx="290" cy="420" rx="340" ry="240" fill="url(#garden-aura-sage)"/>
+      <path d="M-80 -40 L480 -40 L960 690 L320 690 Z" fill="url(#garden-sunbeam)"/>
+    </g>`;
+
   const threads = `
-    <g stroke="#dab8b5" stroke-width="1.1" opacity=".42">
+    <g stroke="#dab8b5" stroke-width="1.1" opacity=".46">
       <path d="M-40 179C44-35 192 139 349-58M-18 145C87 3 205 122 354-36"/>
       <path d="M-35 368C133 615 325 635 527 471S807 459 1080 347"/>
       <path d="M-19 394C124 610 286 655 499 502S777 436 1092 376" stroke-width=".75" opacity=".7"/>
       <path d="M847-42C1058-18 951 125 1153 158S1372 323 1428 376"/>
       <path d="M744 132C863 43 1151 81 1160 319S1290 589 1450 571" opacity=".55"/>
+      <path d="M180 590C390 460 640 530 890 410S1210 250 1430 290" stroke="#c2cfb8" stroke-width=".85" stroke-dasharray="4 6" opacity=".5"/>
     </g>`;
 
   const floatingElements = `
@@ -161,23 +188,115 @@ export function gardenAtmosphereMarkup() {
       ${driftingPetal(645, 340, 48, 0.75, false)}
       ${driftingPetal(1290, 385, -35, 0.95, true)}
       ${driftingPetal(1240, 95, 25, 0.7, false)}
+      ${driftingPetal(420, 110, -18, 0.68, false)}
+      ${driftingPetal(865, 515, 28, 0.82, true)}
       ${leaf(98, 315, -52, 1.05)}
       ${leaf(562, 198, 32, 1.1)}
       ${leaf(550, 298, 95, .78, true)}
       ${leaf(1265, 460, 48, .72, true)}
+      ${leaf(830, 118, -38, .66, true)}
     </g>`;
 
   const glints = [
     [719,173,2.5],[1219,240,2.8],[1104,489,2.2],[699,379,2.6],[1287,392,3],[1008,94,2.4],
-    [480,460,2],[615,120,2.2],[1330,280,2.5]
-  ].map(([x,y,r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fffdf3" opacity=".8"/>`).join('');
+    [480,460,2],[615,120,2.2],[1330,280,2.5],[240,145,2.3],[890,260,1.9]
+  ].map(([x,y,r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fffdf3" opacity=".82"/>`).join('');
 
   const sparkles = `
     ${sparkle(675, 145, 0.65, 0)}
     ${sparkle(1185, 210, 0.8, 0.7)}
     ${sparkle(1310, 420, 0.9, 1.4)}
     ${sparkle(520, 490, 0.6, 2.1)}
+    ${sparkle(215, 130, 0.72, 1.1)}
+    ${sparkle(945, 115, 0.58, 1.8)}
   `;
 
-  return svg('0 0 1400 650', `${threads}${floatingElements}<g class="garden-glints">${glints}${sparkles}</g>`);
+  return svg('0 0 1400 650', `${defs}${auras}${threads}${floatingElements}<g class="garden-glints">${glints}${sparkles}</g>`);
 }
+
+export function introAtmosphereMarkup() {
+  const defs = `
+    <defs>
+      <radialGradient id="intro-envelope-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f6d8df" stop-opacity=".62"/>
+        <stop offset="48%" stop-color="#faeadf" stop-opacity=".28"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="intro-copy-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f9ebd4" stop-opacity=".42"/>
+        <stop offset="60%" stop-color="#fdf4eb" stop-opacity=".16"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="intro-morning-ray" x1="0%" y1="0%" x2="100%" y2="85%">
+        <stop offset="0%" stop-color="#fffefa" stop-opacity=".65"/>
+        <stop offset="45%" stop-color="#fceddf" stop-opacity=".2"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </linearGradient>
+    </defs>`;
+
+  const lightPools = `
+    <g class="intro-light-pools">
+      <path d="M-120 -60 L620 -60 L1180 820 L260 820 Z" fill="url(#intro-morning-ray)"/>
+      <ellipse cx="1010" cy="390" rx="390" ry="310" fill="url(#intro-envelope-glow)"/>
+      <ellipse cx="340" cy="330" rx="330" ry="250" fill="url(#intro-copy-glow)"/>
+    </g>`;
+
+  const silkThreads = `
+    <g stroke="#ddb9b8" stroke-width="1" opacity=".38">
+      <path d="M-60 620C140 490 360 670 610 540S1020 310 1490 430"/>
+      <path d="M-40 648C165 520 370 692 625 562S1035 338 1495 456" stroke-width=".65" opacity=".65"/>
+      <path d="M680 -30C790 140 990 85 1170 210S1360 470 1480 510" stroke="#c4d0ba" stroke-width=".85" stroke-dasharray="3 5" opacity=".55"/>
+    </g>`;
+
+  const botanicalAccents = `
+    <g class="intro-drifting-botanicals">
+      ${driftingPetal(690, 148, -22, 0.88, false)}
+      ${driftingPetal(1290, 175, 34, 0.96, true)}
+      ${driftingPetal(1210, 620, -40, 0.78, false)}
+      ${driftingPetal(110, 125, 18, 0.72, false)}
+      ${leaf(745, 615, -48, 0.85, true)}
+      ${leaf(1320, 320, 62, 0.76, false)}
+      ${flower(1260, 138, 0.62, 'white', 15)}
+      ${flower(725, 640, 0.54, 'pink', -20)}
+    </g>`;
+
+  const sparkles = `
+    <g class="intro-glints">
+      ${sparkle(760, 170, 0.78, 0.2)}
+      ${sparkle(1250, 240, 0.9, 1.1)}
+      ${sparkle(830, 560, 0.65, 1.9)}
+      ${sparkle(1140, 110, 0.7, 0.6)}
+      ${sparkle(180, 165, 0.6, 1.5)}
+      <circle cx="810" cy="135" r="2.2" fill="#fffdf4" opacity=".8"/>
+      <circle cx="1310" cy="290" r="2.6" fill="#fffdf4" opacity=".75"/>
+      <circle cx="715" cy="495" r="2" fill="#fffdf4" opacity=".7"/>
+      <circle cx="1180" cy="585" r="2.4" fill="#fffdf4" opacity=".8"/>
+    </g>`;
+
+  return svg('0 0 1440 820', `${defs}${lightPools}${silkThreads}${botanicalAccents}${sparkles}`);
+}
+
+export function scrollAtmosphereMarkup() {
+  const items = [
+    { kind: 'petal-soft', variant: 'soft' },
+    { kind: 'petal-deep', variant: 'deep' },
+    { kind: 'leaf-sage', variant: 'sage' },
+    { kind: 'sparkle-gold', variant: 'gold' },
+    { kind: 'petal-soft', variant: 'soft' },
+    { kind: 'leaf-sage', variant: 'sage' },
+    { kind: 'petal-deep', variant: 'deep' },
+    { kind: 'sparkle-gold', variant: 'gold' },
+  ];
+  return items.map(({ kind, variant }) => {
+    if (kind === 'leaf-sage') {
+      return `<i data-kind="${variant}">${svg('0 0 28 36', `<path d="M14 34C5 22 7 9 20 2 25 16 21 28 14 34Z" fill="#9eb093" opacity=".72"/><path d="M14 33C15 23 17 14 19 6" stroke="#f7f4e8" stroke-width=".7" stroke-linecap="round" opacity=".6"/>`)}</i>`;
+    }
+    if (kind === 'sparkle-gold') {
+      return `<i data-kind="${variant}">${svg('0 0 24 24', `<circle cx="12" cy="12" r="7" fill="#f7e4b5" opacity=".32"/><path d="M12 2C12.8 8.5 15.5 11.2 22 12 15.5 12.8 12.8 15.5 12 22 11.2 15.5 8.5 12.8 2 12 8.5 11.2 11.2 8.5 12 2Z" fill="#ebd094" opacity=".82"/>`)}</i>`;
+    }
+    const fill = kind === 'petal-deep' ? '#d996a6' : '#ecc5cf';
+    const edge = kind === 'petal-deep' ? '#eabec8' : '#fff5f7';
+    return `<i data-kind="${variant}">${svg('0 0 26 34', `<path d="M13 32C4 22 3 9 13 2 22 8 23 22 13 32Z" fill="${fill}" opacity=".78"/><path d="M13 29C13.5 20 14 13 13.5 6" stroke="${edge}" stroke-width=".65" stroke-linecap="round" opacity=".55"/>`)}</i>`;
+  }).join('');
+}
+

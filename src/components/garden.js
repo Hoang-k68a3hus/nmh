@@ -19,7 +19,7 @@ export function mountGarden(content) {
   setText('garden-next-label', content.hero.nextLabel);
   document.getElementById('garden-art').innerHTML = gardenMarkup();
   garden.classList.toggle('has-portrait', Boolean(content.hero.photo));
-  mountPhoto(document.getElementById('hero-photo'), content.hero.photo, { onError() { if (!disposed) garden.classList.remove('has-portrait'); } });
+  mountPhoto(document.getElementById('hero-photo'), content.hero.photo, { eager: true, onError() { if (!disposed) garden.classList.remove('has-portrait'); } });
   const decorations = [];
   const decorate = (host, className, markup) => {
     const element = document.createElement('div'); element.className = className;

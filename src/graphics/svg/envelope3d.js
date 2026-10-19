@@ -20,54 +20,61 @@ const PALETTE = {
   shadowWarm: '#4a373d',
 };
 
+let cachedPaperCanvas = null;
+let cachedCardCanvas = null;
+let cachedShadowCanvas = null;
+
 /**
  * Tạo procedural paper fiber texture nhẹ trong bộ nhớ (không cần tải file ngoài)
  */
 function createPaperFiberTexture() {
-  const size = 256;
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
+  if (!cachedPaperCanvas) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#808080';
-  ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = '#808080';
+    ctx.fillRect(0, 0, size, size);
 
-  const imgData = ctx.getImageData(0, 0, size, size);
-  const data = imgData.data;
+    const imgData = ctx.getImageData(0, 0, size, size);
+    const data = imgData.data;
 
-  // Nhiễu hạt giấy mịn kết hợp sợi giấy ngắn
-  let seed = 20102026;
-  const rand = () => {
-    seed = (seed * 1664525 + 1013904223) % 4294967296;
-    return seed / 4294967296;
-  };
+    // Nhiễu hạt giấy mịn kết hợp sợi giấy ngắn
+    let seed = 20102026;
+    const rand = () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
 
-  for (let i = 0; i < data.length; i += 4) {
-    const grain = (rand() - 0.5) * 28;
-    const val = Math.max(0, Math.min(255, 128 + grain));
-    data[i] = val;
-    data[i + 1] = val;
-    data[i + 2] = val;
-    data[i + 3] = 255;
+    for (let i = 0; i < data.length; i += 4) {
+      const grain = (rand() - 0.5) * 28;
+      const val = Math.max(0, Math.min(255, 128 + grain));
+      data[i] = val;
+      data[i + 1] = val;
+      data[i + 2] = val;
+      data[i + 3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    // Vẽ các sợi giấy cotton siêu mảnh
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+    ctx.lineWidth = 0.75;
+    for (let i = 0; i < 140; i++) {
+      const x = rand() * size;
+      const y = rand() * size;
+      const len = 4 + rand() * 10;
+      const angle = rand() * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + Math.cos(angle) * len, y + Math.sin(angle) * len);
+      ctx.stroke();
+    }
+    cachedPaperCanvas = canvas;
   }
-  ctx.putImageData(imgData, 0, 0);
 
-  // Vẽ các sợi giấy cotton siêu mảnh
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
-  ctx.lineWidth = 0.75;
-  for (let i = 0; i < 140; i++) {
-    const x = rand() * size;
-    const y = rand() * size;
-    const len = 4 + rand() * 10;
-    const angle = rand() * Math.PI * 2;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + Math.cos(angle) * len, y + Math.sin(angle) * len);
-    ctx.stroke();
-  }
-
-  const texture = new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(cachedPaperCanvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(3, 3);
@@ -78,120 +85,123 @@ function createPaperFiberTexture() {
  * Tạo texture bề mặt tấm thiệp (in typography editorial + viền vàng champagne + họa tiết)
  */
 function createLetterCardTexture() {
-  const width = 1024;
-  const height = 900;
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
+  if (!cachedCardCanvas) {
+    const width = 1024;
+    const height = 900;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
 
-  // Nền giấy kem ấm
-  ctx.fillStyle = '#FFFDF8';
-  ctx.fillRect(0, 0, width, height);
+    // Nền giấy kem ấm
+    ctx.fillStyle = '#FFFDF8';
+    ctx.fillRect(0, 0, width, height);
 
-  // Hạt giấy rất nhẹ trên mặt thiệp
-  ctx.fillStyle = 'rgba(238, 223, 204, 0.16)';
-  for (let i = 0; i < 1800; i++) {
-    const x = (i * 73) % width;
-    const y = ((i * 139) % height);
-    ctx.fillRect(x, y, 1.5, 1.5);
+    // Hạt giấy rất nhẹ trên mặt thiệp
+    ctx.fillStyle = 'rgba(238, 223, 204, 0.16)';
+    for (let i = 0; i < 1800; i++) {
+      const x = (i * 73) % width;
+      const y = ((i * 139) % height);
+      ctx.fillRect(x, y, 1.5, 1.5);
+    }
+
+    // Khung viền đôi Champagne Gold
+    ctx.strokeStyle = '#E9C787';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(48, 48, width - 96, height - 96);
+
+    ctx.strokeStyle = 'rgba(233, 199, 135, 0.45)';
+    ctx.lineWidth = 1.2;
+    ctx.strokeRect(60, 60, width - 120, height - 120);
+
+    // Góc trang trí tối giản
+    const corners = [
+      [48, 48, 1, 1],
+      [width - 48, 48, -1, 1],
+      [48, height - 48, 1, -1],
+      [width - 48, height - 48, -1, -1],
+    ];
+    ctx.strokeStyle = '#D9B46E';
+    ctx.lineWidth = 2;
+    corners.forEach(([cx, cy, sx, sy]) => {
+      ctx.beginPath();
+      ctx.arc(cx + sx * 18, cy + sy * 18, 6, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+
+    // Dòng phụ đề ngày lễ nhỏ phía trên
+    ctx.fillStyle = '#91435F';
+    ctx.font = '500 22px "Georgia", "Times New Roman", serif';
+    ctx.letterSpacing = '6px';
+    ctx.textAlign = 'center';
+    ctx.fillText('20 · 10 · 2026', width / 2, 148);
+
+    // Đường kẻ mảnh champagne dưới ngày
+    ctx.strokeStyle = '#E9C787';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(width / 2 - 70, 172);
+    ctx.lineTo(width / 2 + 70, 172);
+    ctx.stroke();
+
+    // Tiêu đề Editorial Serif
+    ctx.fillStyle = '#382B31';
+    ctx.font = 'italic 46px "Georgia", "Times New Roman", serif';
+    ctx.fillText('Gửi người phụ nữ dịu dàng,', width / 2, 248);
+
+    // Các dòng thư cách điệu tinh tế (vừa đủ rõ khi hé mở và sang trọng khi rút thiệp lên)
+    ctx.textAlign = 'left';
+    const leftMargin = 132;
+    ctx.strokeStyle = 'rgba(56, 43, 49, 0.22)';
+    ctx.lineWidth = 3.5;
+    ctx.lineCap = 'round';
+
+    const lineLengths = [540, 680, 610, 460];
+    lineLengths.forEach((len, idx) => {
+      const y = 330 + idx * 46;
+      ctx.beginPath();
+      ctx.moveTo(leftMargin, y);
+      ctx.lineTo(leftMargin + len, y);
+      ctx.stroke();
+    });
+
+    // Nhành lá sage nhỏ vẽ tay ở góc phải dưới của bức thư
+    ctx.save();
+    ctx.translate(width - 190, 520);
+    ctx.strokeStyle = '#91A58B';
+    ctx.fillStyle = 'rgba(145, 165, 139, 0.35)';
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    ctx.moveTo(0, 40);
+    ctx.quadraticCurveTo(22, 10, 56, -24);
+    ctx.stroke();
+
+    const drawMiniLeaf = (lx, ly, angle) => {
+      ctx.save();
+      ctx.translate(lx, ly);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(12, -10, 28, 0);
+      ctx.quadraticCurveTo(12, 10, 0, 0);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    };
+    drawMiniLeaf(14, 22, -0.9);
+    drawMiniLeaf(30, 4, -0.2);
+    drawMiniLeaf(42, -14, -0.75);
+    ctx.restore();
+
+    // Chữ ký nhỏ màu dusty burgundy
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#91435F';
+    ctx.font = 'italic 30px "Georgia", "Times New Roman", serif';
+    ctx.fillText('Với trọn vẹn yêu thương ♥', width - 136, 565);
+    cachedCardCanvas = canvas;
   }
 
-  // Khung viền đôi Champagne Gold
-  ctx.strokeStyle = '#E9C787';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(48, 48, width - 96, height - 96);
-
-  ctx.strokeStyle = 'rgba(233, 199, 135, 0.45)';
-  ctx.lineWidth = 1.2;
-  ctx.strokeRect(60, 60, width - 120, height - 120);
-
-  // Góc trang trí tối giản
-  const corners = [
-    [48, 48, 1, 1],
-    [width - 48, 48, -1, 1],
-    [48, height - 48, 1, -1],
-    [width - 48, height - 48, -1, -1],
-  ];
-  ctx.strokeStyle = '#D9B46E';
-  ctx.lineWidth = 2;
-  corners.forEach(([cx, cy, sx, sy]) => {
-    ctx.beginPath();
-    ctx.arc(cx + sx * 18, cy + sy * 18, 6, 0, Math.PI * 2);
-    ctx.stroke();
-  });
-
-  // Dòng phụ đề ngày lễ nhỏ phía trên
-  ctx.fillStyle = '#91435F';
-  ctx.font = '500 22px "Georgia", "Times New Roman", serif';
-  ctx.letterSpacing = '6px';
-  ctx.textAlign = 'center';
-  ctx.fillText('20 · 10 · 2026', width / 2, 148);
-
-  // Đường kẻ mảnh champagne dưới ngày
-  ctx.strokeStyle = '#E9C787';
-  ctx.lineWidth = 1.8;
-  ctx.beginPath();
-  ctx.moveTo(width / 2 - 70, 172);
-  ctx.lineTo(width / 2 + 70, 172);
-  ctx.stroke();
-
-  // Tiêu đề Editorial Serif
-  ctx.fillStyle = '#382B31';
-  ctx.font = 'italic 46px "Georgia", "Times New Roman", serif';
-  ctx.fillText('Gửi người phụ nữ dịu dàng,', width / 2, 248);
-
-  // Các dòng thư cách điệu tinh tế (ừa đủ rõ khi hé mở và sang trọng khi rút thiệp lên)
-  ctx.textAlign = 'left';
-  const leftMargin = 132;
-  ctx.strokeStyle = 'rgba(56, 43, 49, 0.22)';
-  ctx.lineWidth = 3.5;
-  ctx.lineCap = 'round';
-
-  const lineLengths = [540, 680, 610, 460];
-  lineLengths.forEach((len, idx) => {
-    const y = 330 + idx * 46;
-    ctx.beginPath();
-    ctx.moveTo(leftMargin, y);
-    ctx.lineTo(leftMargin + len, y);
-    ctx.stroke();
-  });
-
-  // Nhành lá sage nhỏ vẽ tay ở góc phải dưới của bức thư
-  ctx.save();
-  ctx.translate(width - 190, 520);
-  ctx.strokeStyle = '#91A58B';
-  ctx.fillStyle = 'rgba(145, 165, 139, 0.35)';
-  ctx.lineWidth = 2.2;
-  ctx.beginPath();
-  ctx.moveTo(0, 40);
-  ctx.quadraticCurveTo(22, 10, 56, -24);
-  ctx.stroke();
-
-  const drawMiniLeaf = (lx, ly, angle) => {
-    ctx.save();
-    ctx.translate(lx, ly);
-    ctx.rotate(angle);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.quadraticCurveTo(12, -10, 28, 0);
-    ctx.quadraticCurveTo(12, 10, 0, 0);
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
-  };
-  drawMiniLeaf(14, 22, -0.9);
-  drawMiniLeaf(30, 4, -0.2);
-  drawMiniLeaf(42, -14, -0.75);
-  ctx.restore();
-
-  // Chữ ký nhỏ màu dusty burgundy
-  ctx.textAlign = 'right';
-  ctx.fillStyle = '#91435F';
-  ctx.font = 'italic 30px "Georgia", "Times New Roman", serif';
-  ctx.fillText('Với trọn vẹn yêu thương ♥', width - 136, 565);
-
-  const texture = new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(cachedCardCanvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;
   return texture;
@@ -201,29 +211,32 @@ function createLetterCardTexture() {
  * Tạo texture bóng đổ tiếp xúc (Contact / Ambient Occlusion Shadow)
  */
 function createSoftShadowTexture() {
-  const width = 256;
-  const height = 128;
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
+  if (!cachedShadowCanvas) {
+    const width = 256;
+    const height = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
 
-  const grad = ctx.createRadialGradient(
-    width / 2,
-    height / 2,
-    8,
-    width / 2,
-    height / 2,
-    width / 2
-  );
-  grad.addColorStop(0, 'rgba(72, 50, 56, 0.24)');
-  grad.addColorStop(0.55, 'rgba(72, 50, 56, 0.10)');
-  grad.addColorStop(1, 'rgba(72, 50, 56, 0.0)');
+    const grad = ctx.createRadialGradient(
+      width / 2,
+      height / 2,
+      8,
+      width / 2,
+      height / 2,
+      width / 2
+    );
+    grad.addColorStop(0, 'rgba(72, 50, 56, 0.24)');
+    grad.addColorStop(0.55, 'rgba(72, 50, 56, 0.10)');
+    grad.addColorStop(1, 'rgba(72, 50, 56, 0.0)');
 
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+    cachedShadowCanvas = canvas;
+  }
 
-  const texture = new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(cachedShadowCanvas);
   return texture;
 }
 
@@ -384,8 +397,9 @@ export function mountEnvelope3DScene(svgElement, { scrollDriven = false } = {}) 
   const keyLight = new THREE.DirectionalLight(0xfff5e8, 1.35);
   keyLight.position.set(-3.8, 4.6, 5.2);
   keyLight.castShadow = true;
-  keyLight.shadow.mapSize.width = 1024;
-  keyLight.shadow.mapSize.height = 1024;
+  const shadowSize = window.innerWidth < 700 ? 512 : 1024;
+  keyLight.shadow.mapSize.width = shadowSize;
+  keyLight.shadow.mapSize.height = shadowSize;
   keyLight.shadow.camera.near = 1;
   keyLight.shadow.camera.far = 15;
   const d = 3.4;
@@ -881,52 +895,73 @@ export function mountEnvelope3DScene(svgElement, { scrollDriven = false } = {}) 
       );
   }
 
-  // --- PHASE B: INTERACTION FEEDBACK (Hover / Focus / Tap nghiêng 2–4 độ) ---
+  // --- PHASE B: INTERACTION FEEDBACK (Hover / Focus / Tap nghiêng 2–4 độ kết hợp mượt với Scroll Pose) ---
   const interactiveTrigger =
-    svgElement.closest('button, a, [role="button"], .hero-illustration, .envelope-trigger') ||
+    svgElement.closest('button, a, [role="button"], .hero-illustration, .envelope-trigger, .intro') ||
     hostContainer;
 
+  const scrollPose = { x: 0, y: -0.32, z: 0, liftY: 0 };
+  const pointerOffset = { x: 0, y: 0 };
+
+  const applyInteractionPose = () => {
+    interactionGroup.rotation.set(
+      scrollPose.x + pointerOffset.x,
+      scrollPose.y + pointerOffset.y,
+      scrollPose.z
+    );
+    interactionGroup.position.y = scrollPose.liftY;
+  };
+
   const onPointerMove = (e) => {
-    if (scrollDriven || reducedMotion || isDisposed) return;
+    if (reducedMotion || isDisposed || !isInViewport) return;
     const rect = hostContainer.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
 
     // Giới hạn góc nghiêng đúng 2–4 độ (0.035 - 0.065 rad)
-    const targetRotY = THREE.MathUtils.clamp(nx * 0.065, -0.07, 0.07);
-    const targetRotX = THREE.MathUtils.clamp(-ny * 0.055, -0.06, 0.06);
+    const targetRotY = THREE.MathUtils.clamp(nx * 0.055, -0.065, 0.065);
+    const targetRotX = THREE.MathUtils.clamp(-ny * 0.045, -0.055, 0.055);
 
     if (activeHoverTween) activeHoverTween.kill();
-    activeHoverTween = gsap.to(interactionGroup.rotation, {
+    activeHoverTween = gsap.to(pointerOffset, {
       x: targetRotX,
       y: targetRotY,
-      duration: 0.55,
+      duration: 0.5,
       ease: 'power2.out',
-      onUpdate: renderFrame,
+      onUpdate: () => {
+        applyInteractionPose();
+        renderFrame();
+      },
     });
   };
 
   const onPointerLeave = () => {
-    if (scrollDriven || reducedMotion || isDisposed) return;
+    if (reducedMotion || isDisposed) return;
     if (activeHoverTween) activeHoverTween.kill();
-    activeHoverTween = gsap.to(interactionGroup.rotation, {
+    activeHoverTween = gsap.to(pointerOffset, {
       x: 0,
       y: 0,
-      duration: 0.75,
+      duration: 0.7,
       ease: 'power3.out',
-      onUpdate: renderFrame,
+      onUpdate: () => {
+        applyInteractionPose();
+        renderFrame();
+      },
     });
   };
 
   const onFocusIn = () => {
-    if (scrollDriven || reducedMotion || isDisposed) return;
-    gsap.to(interactionGroup.rotation, {
-      x: -0.04,
-      y: 0.05,
+    if (reducedMotion || isDisposed) return;
+    gsap.to(pointerOffset, {
+      x: -0.035,
+      y: 0.045,
       duration: 0.5,
       ease: 'power2.out',
-      onUpdate: renderFrame,
+      onUpdate: () => {
+        applyInteractionPose();
+        renderFrame();
+      },
     });
   };
 
@@ -1256,8 +1291,16 @@ export function mountEnvelope3DScene(svgElement, { scrollDriven = false } = {}) 
   return {
     buildRevealTimeline,
     setScrollPose(progress, reduced) {
-      interactionGroup.rotation.set(reduced ? 0 : Math.sin(progress * Math.PI) * 0.12,
-        reduced ? 0 : -0.32 + progress * 0.64, 0);
+      const arc = Math.sin(progress * Math.PI);
+      scrollPose.x = reduced ? 0 : arc * 0.13;
+      scrollPose.y = reduced ? 0 : -0.32 + progress * 0.64;
+      scrollPose.z = reduced ? 0 : (0.5 - progress) * -0.035;
+      scrollPose.liftY = reduced ? 0 : arc * 0.075;
+      if (reduced) {
+        pointerOffset.x = 0;
+        pointerOffset.y = 0;
+      }
+      applyInteractionPose();
     },
     renderFrame,
     dispose,

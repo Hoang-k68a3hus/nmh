@@ -50,21 +50,36 @@ export function growingVineMarkup(variant = 0) {
 }
 
 export function storyThreadsMarkup(variant = 0, { silk = false } = {}) {
-  const ribbonId = `story-silk-${++storyRibbonId}`;
+  const idNum = ++storyRibbonId;
+  const ribbonId = `story-silk-${idNum}`;
+  const auraId = `story-aura-${idNum}`;
   const curves = variant % 2
     ? 'M-80 120C140 35 260 485 555 435S885 450 1250 365 M-60 138C140 55 262 502 558 452S890 468 1260 382'
     : 'M-80 390C175 565 310 470 555 435S895 455 1260 375 M-60 408C178 582 315 486 558 452S898 470 1260 392';
 
-  // Dải ruy băng lụa mềm có đuôi én cho trang Finale (variant === 1)
-  const silkRibbonBanner = silk ? `
+  const auraColors = variant % 3 === 0
+    ? ['#f7dce3', '#faece2']
+    : variant % 3 === 1
+    ? ['#f8ead3', '#fbf2e6']
+    : ['#e1ebd9', '#f4f2e8'];
+
+  const ambientDefs = `
     <defs>
-      <linearGradient id="${ribbonId}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <radialGradient id="${auraId}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${auraColors[0]}" stop-opacity="0.46"/>
+        <stop offset="58%" stop-color="${auraColors[1]}" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="#fff8f1" stop-opacity="0"/>
+      </radialGradient>
+      ${silk ? `<linearGradient id="${ribbonId}" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" stop-color="#E5B0BA" stop-opacity="0.55"/>
         <stop offset="35%" stop-color="#ECAEC0" stop-opacity="0.48"/>
         <stop offset="70%" stop-color="#E5B0BA" stop-opacity="0.52"/>
         <stop offset="100%" stop-color="#D998A7" stop-opacity="0.6"/>
-      </linearGradient>
-    </defs>
+      </linearGradient>` : ''}
+    </defs>`;
+
+  // Dải ruy băng lụa mềm có đuôi én cho trang Finale (variant === 1)
+  const silkRibbonBanner = silk ? `
     <path class="story-silk-ribbon" fill="url(#${ribbonId})"
       d="M 15 112
          C 175 88, 285 435, 585 415
@@ -87,6 +102,8 @@ export function storyThreadsMarkup(variant = 0, { silk = false } = {}) {
   }).join('');
 
   return svg('0 0 1200 560', `
+    ${ambientDefs}
+    <ellipse class="story-aura-glow" cx="${variant % 2 ? 780 : 420}" cy="280" rx="390" ry="235" fill="url(#${auraId})"/>
     ${silkRibbonBanner}
     <path class="story-thread" d="${curves}"/>
     <g class="story-growing-branch"><path class="vine-stem" pathLength="1" d="${branch.path}"/>${buds}</g>
@@ -95,12 +112,14 @@ export function storyThreadsMarkup(variant = 0, { silk = false } = {}) {
       ${botanicalLeaf(112, 137, -32, .66, true)}
       ${botanicalLeaf(1022, 125, 40, .65)}
       ${botanicalLeaf(245, 472, 18, .58, true)}
+      ${botanicalLeaf(865, 448, -42, .52, false)}
       <!-- Các cánh hoa hồng rơi mềm mại xung quanh bó hoa -->
       <path d="M475 74C462 63 466 50 478 53 488 57 486 70 475 74Z" fill="#e8b4c0" opacity=".85"/>
       <path d="M468 228C456 238 462 252 475 247 485 240 480 225 468 228Z" fill="#d4889a" opacity=".88"/>
       <path d="M718 242C706 232 712 220 724 224 735 230 730 245 718 242Z" fill="#e59FB0" opacity=".85"/>
       <path d="M975 399C955 385 961 374 971 376 984 380 984 393 975 399Z" fill="#ebc9cf"/>
-      <path d="M91 400l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z M1100 335l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z" fill="#fffefa"/>
+      <path d="M195 196C184 186 188 175 198 178 208 182 206 193 195 196Z" fill="#ecc5cf" opacity=".78"/>
+      <path d="M91 400l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z M1100 335l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z M640 88l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#fffefa"/>
     </g>`);
 }
 
