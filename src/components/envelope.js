@@ -9,7 +9,6 @@ export function mountEnvelope(content) {
     'intro-eyebrow': content.intro.eyebrow, 'intro-title-lead': content.intro.title,
     'intro-title-tail': content.intro.titleTail, 'intro-title-emphasis': content.intro.emphasis,
     'intro-recipient': content.intro.recipientLabel, 'intro-message': content.intro.message,
-    'intro-footnote': content.intro.footnote,
   })) setText(id, value);
   const svg = host.querySelector('svg');
   svg.dataset.motionOwner = 'scroll';

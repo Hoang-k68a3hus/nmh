@@ -67,12 +67,12 @@ export function mountScrollScenes({ pageState, envelope, wishes, graphics } = {}
 
   bindCue(document.querySelector('#intro .scroll-cue'), () => {
     if (!geometry[0]) return document.getElementById('garden');
-    const openTarget = geometry[0].top + Math.max(120, (geometry[0].height - innerHeight) * 0.72);
+    const openTarget = geometry[0].top + Math.max(120, (geometry[0].height - innerHeight) * 0.88);
     return scrollY < openTarget - 24 ? openTarget : document.getElementById('garden');
   });
   bindCue(document.getElementById('envelope-art'), () => {
     if (!geometry[0]) return null;
-    const openTarget = geometry[0].top + Math.max(120, (geometry[0].height - innerHeight) * 0.72);
+    const openTarget = geometry[0].top + Math.max(120, (geometry[0].height - innerHeight) * 0.88);
     return scrollY < openTarget - 24 ? openTarget : document.getElementById('garden');
   });
   bindCue(document.querySelector('#garden .scroll-cue'), () => document.getElementById('wishes'));
@@ -134,7 +134,7 @@ export function mountScrollScenes({ pageState, envelope, wishes, graphics } = {}
       }
     });
 
-    const envProgress = easeInOutSine(segment(progress[0], 0.04, 0.85));
+    const envProgress = easeInOutSine(segment(progress[0], 0.03, 0.90));
     if (Math.abs(envProgress - lastEnvelopeProgress) > 0.0001 || reduced !== lastEnvelopeReduced) {
       lastEnvelopeProgress = envProgress;
       lastEnvelopeReduced = reduced;
@@ -143,7 +143,7 @@ export function mountScrollScenes({ pageState, envelope, wishes, graphics } = {}
 
     const blooms = cardGeometry.map(({ top, height, artTop, artHeight }, index) => {
       const p = easeInOutSine(segment(currentY, top - viewport, top + height));
-      const rawEnter = segment(currentY, top - viewport * 0.94, top - viewport * 0.18);
+      const rawEnter = segment(currentY, top - viewport * 1.10, top - viewport * 0.05);
       const enter = easeOutCubic(rawEnter);
       const prev = lastCardState[index];
 
@@ -168,7 +168,7 @@ export function mountScrollScenes({ pageState, envelope, wishes, graphics } = {}
 
     wishes.setProgress(blooms);
 
-    const rawLetterEnter = segment(currentY, letterGeometry.top - viewport * 0.88, letterGeometry.top - viewport * 0.12);
+    const rawLetterEnter = segment(currentY, letterGeometry.top - viewport * 1.10, letterGeometry.top - viewport * 0.05);
     const letterEnter = easeOutCubic(rawLetterEnter);
     if (Math.abs(letterEnter - lastLetterEnter) > 0.0001 || reduced !== lastLetterReduced) {
       lastLetterEnter = letterEnter;
