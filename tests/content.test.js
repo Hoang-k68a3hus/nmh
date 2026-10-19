@@ -1,3 +1,4 @@
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { content } from '../src/config/content.js';
@@ -27,10 +28,16 @@ test('Tên/biệt danh và chữ ký cập nhật xuyên suốt mà không sửa
   raw.sender.name = 'Minh';
   raw.isDemo = false;
   const resolved = prepareContent(raw);
+
   assert.equal(resolved.hero.title, 'Chúc mừng 20/10, Mây.');
   assert.equal(resolved.intro.recipientLabel, 'Gửi Mây');
   assert.equal(resolved.letter.paragraphs[0], 'Gửi Mây,');
-  assert.equal(resolved.sender.signature, 'Thương em,\nMinh');
+
+  assert.equal(
+    resolved.sender.signature,
+    raw.sender.signature.replace('{{sender.name}}', 'Minh')
+  );
+
   assert.ok(resolved.page.title.includes('Mây'));
   assert.equal(raw.hero.title, content.hero.title, 'Không mutate cấu hình nguồn');
 });
@@ -38,7 +45,10 @@ test('Tên/biệt danh và chữ ký cập nhật xuyên suốt mà không sửa
 test('Không có biệt danh thì dùng tên người nhận', () => {
   const raw = sample();
   raw.recipient.name = 'Ngọc Anh';
+  raw.recipient.nickname = '';
+
   assert.ok(prepareContent(raw).hero.title.includes('Ngọc Anh'));
+
   raw.recipient.nickname = '  ';
   assert.ok(prepareContent(raw).hero.title.includes('Ngọc Anh'));
 });
@@ -115,8 +125,15 @@ test('Audio nhận path local hoặc null; không nhận URL ngoài và kiểu d
 test('Metadata HTML escape tên có ký tự đặc biệt và giữ chuỗi nội dung nguyên dạng', () => {
   const raw = sample();
   raw.recipient.name = 'Anh & "Em" <3';
+  raw.recipient.nickname = '';
+
   const resolved = prepareContent(raw);
-  const html = injectContentMetadata('<title>__CONTENT_TITLE__</title><meta content="__CONTENT_DESCRIPTION__">', resolved);
+
+  const html = injectContentMetadata(
+    '<title>__CONTENT_TITLE__</title><meta content="__CONTENT_DESCRIPTION__">',
+    resolved
+  );
+
   assert.ok(html.includes('Anh &amp; &quot;Em&quot; &lt;3'));
   assert.ok(!html.includes('__CONTENT_'));
   assert.ok(resolved.page.title.includes('Anh & "Em" <3'));
